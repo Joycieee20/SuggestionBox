@@ -1,0 +1,77 @@
+<html lang="en"> <head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Suggestion Box</title>
+</head> <body>
+<h1>Team Suggestion Box</h1>
+
+<form id="suggestionForm">
+
+    <textarea placeholder="Enter your suggestion..." required></textarea>
+
+    <button type="submit">Submit</button>
+
+</form>
+
+<div id="suggestions">
+
+    <!-- Suggestions will appear here -->
+
+</div>
+</body> </html>\ \ body {
+font-family: Arial, sans-serif;
+
+margin: 20px;
+
+padding: 0;
+}
+h1 {
+text-align: center;
+}
+form {
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+}
+textarea {
+width: 80%;
+
+height: 100px;
+
+margin-bottom: 10px;
+}
+button {
+padding: 10px 20px;
+
+background-color: #4CAF50;
+
+color: white;
+
+border: none;
+
+cursor: pointer;
+}
+button:hover {
+background-color: #45a049;
+}
+#suggestions {
+margin-top: 20px;
+}
+
+document.getElementById('suggestionForm').addEventListener('submit', function(event) {
+event.preventDefault();
+
+const suggestionText = this.querySelector('textarea').value;
+
+const suggestionDiv = document.createElement('div');
+
+suggestionDiv.textContent = suggestionText;
+
+document.getElementById('suggestions').appendChild(suggestionDiv);
+
+this.reset();
+});
