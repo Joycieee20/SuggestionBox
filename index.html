@@ -49,13 +49,31 @@
     </div>
     <script>
         document.getElementById('suggestionForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const suggestionText = this.querySelector('textarea').value;
-            const suggestionDiv = document.createElement('div');
-            suggestionDiv.textContent = suggestionText;
-            document.getElementById('suggestions').appendChild(suggestionDiv);
-            this.reset();
-        });
+    event.preventDefault();
+    const suggestionText = this.querySelector('textarea').value;
+    const suggestionDiv = document.createElement('div');
+    suggestionDiv.textContent = suggestionText;
+    document.getElementById('suggestions').appendChild(suggestionDiv);
+    saveSuggestion(suggestionText);
+    this.reset();
+});
+
+function saveSuggestion(suggestion) {
+    let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
+    suggestions.push(suggestion);
+    localStorage.setItem('suggestions', JSON.stringify(suggestions));
+}
+
+function loadSuggestions() {
+    let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
+    suggestions.forEach(suggestion => {
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.textContent = suggestion;
+        document.getElementById('suggestions').appendChild(suggestionDiv);
+    });
+}
+
+loadSuggestions();
     </script>
 </body>
 </html>
