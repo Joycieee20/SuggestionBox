@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suggestion/Comment Box</title>
+    <title>Suggestion Box</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,10 +18,12 @@
             flex-direction: column;
             align-items: center;
         }
-        textarea {
+        input, textarea {
             width: 80%;
-            height: 100px;
             margin-bottom: 10px;
+        }
+        textarea {
+            height: 100px;
         }
         button {
             padding: 10px 20px;
@@ -39,8 +41,9 @@
     </style>
 </head>
 <body>
-    <h1>Team Suggestion/Comments Box</h1>
+    <h1>Team Bulletin Box</h1>
     <form id="suggestionForm">
+        <input type="text" placeholder="Enter your anon name (optional)" />
         <textarea placeholder="Enter your suggestion or comments..." required></textarea>
         <button type="submit">Submit</button>
     </form>
@@ -50,25 +53,27 @@
     <script>
         document.getElementById('suggestionForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            const name = this.querySelector('input').value || "Anonymous";
             const suggestionText = this.querySelector('textarea').value;
+            const date = new Date().toLocaleString();
             const suggestionDiv = document.createElement('div');
-            suggestionDiv.textContent = suggestionText;
+            suggestionDiv.textContent = `${name} (${date}): ${suggestionText}`;
             document.getElementById('suggestions').appendChild(suggestionDiv);
-            saveSuggestion(suggestionText);
+            saveSuggestion(name, suggestionText, date);
             this.reset();
         });
 
-        function saveSuggestion(suggestion) {
+        function saveSuggestion(name, suggestion, date) {
             let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
-            suggestions.push(suggestion);
+            suggestions.push({ name, suggestion, date });
             localStorage.setItem('suggestions', JSON.stringify(suggestions));
         }
 
         function loadSuggestions() {
             let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
-            suggestions.forEach(suggestion => {
+            suggestions.forEach(({ name, suggestion, date }) => {
                 const suggestionDiv = document.createElement('div');
-                suggestionDiv.textContent = suggestion;
+                suggestionDiv.textContent = `${name} (${date}): ${suggestion}`;
                 document.getElementById('suggestions').appendChild(suggestionDiv);
             });
         }
