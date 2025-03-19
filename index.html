@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suggestion Box</title>
+    <title>Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,13 +17,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            max-width: 300px;
+            margin: 0 auto;
         }
-        input, textarea {
-            width: 80%;
+        input {
+            width: 100%;
             margin-bottom: 10px;
-        }
-        textarea {
-            height: 100px;
+            padding: 8px;
+            box-sizing: border-box;
         }
         button {
             padding: 10px 20px;
@@ -31,54 +32,29 @@
             color: white;
             border: none;
             cursor: pointer;
+            width: 100%;
         }
         button:hover {
             background-color: #45a049;
         }
-        #suggestions {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
-    <h1>Team Bulletin Box</h1>
-    <form id="suggestionForm">
-        <input type="text" placeholder="Enter your anon name (optional)" />
-        <textarea placeholder="Enter your suggestion or comments..." required></textarea>
-        <button type="submit">Submit</button>
+    <h1>User Login</h1>
+    <form id="loginForm">
+        <input type="email" placeholder="Enter your email" required />
+        <input type="password" placeholder="Enter your password" required />
+        <button type="submit">Login</button>
     </form>
-    <div id="suggestions">
-        <!-- Suggestions will appear here -->
-    </div>
     <script>
-        document.getElementById('suggestionForm').addEventListener('submit', function(event) {
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const name = this.querySelector('input').value || "Anonymous";
-            const suggestionText = this.querySelector('textarea').value;
-            const date = new Date().toLocaleString();
-            const suggestionDiv = document.createElement('div');
-            suggestionDiv.textContent = `${name} (${date}): ${suggestionText}`;
-            document.getElementById('suggestions').appendChild(suggestionDiv);
-            saveSuggestion(name, suggestionText, date);
-            this.reset();
+            const email = this.querySelector('input[type="email"]').value;
+            const password = this.querySelector('input[type="password"]').value;
+            // Replace with the authentication logic as per your setup
+            console.log('Email:', email, 'Password:', password);
+            // Call your Firebase auth functions here to handle login
         });
-
-        function saveSuggestion(name, suggestion, date) {
-            let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
-            suggestions.push({ name, suggestion, date });
-            localStorage.setItem('suggestions', JSON.stringify(suggestions));
-        }
-
-        function loadSuggestions() {
-            let suggestions = JSON.parse(localStorage.getItem('suggestions')) || [];
-            suggestions.forEach(({ name, suggestion, date }) => {
-                const suggestionDiv = document.createElement('div');
-                suggestionDiv.textContent = `${name} (${date}): ${suggestion}`;
-                document.getElementById('suggestions').appendChild(suggestionDiv);
-            });
-        }
-
-        loadSuggestions();
     </script>
 </body>
 </html>
